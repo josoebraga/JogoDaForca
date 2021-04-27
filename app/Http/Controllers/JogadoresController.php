@@ -28,7 +28,7 @@ class JogadoresController extends Controller
      */
     public function create(Request $request)
     {
-        $nick = $request->nick; // GET OF DATA 
+        $nick = $request->nick; // GET OF DATA
         $group_word = $request->group_word;
         if ($group_word == 0) {
             $categoria = CategoriasPalavras::all()->random(1);
@@ -53,17 +53,19 @@ class JogadoresController extends Controller
             $consultaJogador = $name->name;
         }
 
-        if ($nick != 'bruno') {
+        if (strtolower(trim($nick)) != strtolower(trim($consultaJogador))) {
             $jogador = new Jogadores();
             $jogador->name = $nick;
             $jogador->group_of_words_id = $group_word;
             $jogador->available_tips = '0';
             $jogador->punctuation = '0';
             $jogador->save();
+            return view('jogo', compact('dica', 'letras'));
         } else {
             $request->session()->flash('flash_erro', '');
+            $categoriaPalavras = CategoriasPalavras::all();
+            return view('welcome', ['categoriaPalavras' => $categoriaPalavras]);
         }
 
-        return view('jogo', compact('dica', 'letras'));
     }
 }
