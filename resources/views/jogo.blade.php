@@ -3,18 +3,22 @@
 @section('content')
 
 Boa sorte {{$jogadores[0]->name}}!
-<br>
 {{$word}}
-<br>
 <div id="divAcertos">
 @for($i = 0; $i < strlen($word); $i++)
-<input type="text" value="{{session('L'.$i)}}"><br>
+<input type="hidden" value="{{session('L'.$i)}}">
 @endfor
+<input id="erros" type="hidden" value="{{session('erros')}}">
+<img src="{{ asset('storage/image/forca/'.session('erros').'.png') }}" alt="HTML5 Doctor Logo" width="200px" heidth="100px"/>
+<div id="mensagem" style="display: none;">Você Perdeu!</div>
 </div>
-<br><br><br>
+{{-- Se erro = 0, mostra 0.png, se erro > 5 fim do jogo --}}
+<img>
 <form>
     {{ csrf_field() }}
-<input type="text" onchange="revelaLetra(this.value);" maxlength="1"><br>
+    <div id="divAdivinharLetra">
+        <input id="adivinharLetra" type="text" onchange="revelaLetra(this.value);" maxlength="1"><br>
+    </div>
     @for ($i = 0; $i < strlen($word); $i++)
         <input type="text" id="L{{$i}}" name="L{{$i}}" maxlength="1" value="{{ strtoupper($letras[$i]) == strtoupper(session('L'.$i)) ? strtoupper($letras[$i]) : '' }}" style="width: 50px; text-align: left;" disabled>
         {{-- Se todas as letras estão preenchidas, liberar botão pra próxima palavra --}}
@@ -23,9 +27,19 @@ Boa sorte {{$jogadores[0]->name}}!
 @endsection
 
 <script type="text/javascript">
+
+function bloqueiaInput(){
+    if(document.getElementById('erros').value > 5) {
+                document.getElementById("adivinharLetra").disabled = true;
+                document.getElementById("divAdivinharLetra").style.display = "none";
+                document.getElementById("mensagem").style.display = "";
+            }
+}
+setInterval(bloqueiaInput, 1000);
+
+
+
 function revelaLetra(letra) {
-    //alert(letra);
-    //document.getElementById('L3').value = letra;
 
             if (window.XMLHttpRequest) {
             requisicao = new XMLHttpRequest();
@@ -91,9 +105,6 @@ function revelaLetra(letra) {
 
             refreshDiv();
 
-
-//            if(letra.toLowerCase() == obj[0].L1.toLowerCase()) { document.getElementById('L0').value = letra.toUpperCase(); }
-
     };
 
     requisicao.send(null);
@@ -103,7 +114,10 @@ function revelaLetra(letra) {
 
 function refreshDiv(){
             $("#divAcertos").load(" #divAcertos > *");
-            //document.getElementById("divAcertos").innerHTML = "alterei a div";
+            if(document.getElementById('erros').value > 5) {
+                document.getElementById("adivinharLetra").disabled = true;
+                document.getElementById("divAdivinharLetra").style.display = "none";
+            }
         }
 
 </script>

@@ -106,6 +106,7 @@ class JogadoresController extends Controller
       try { $jogadorPalavra->L46 = $letras[45]; } catch (Exception $e) {}
             $jogadorPalavra->save();
             session(['jogadorId' => $jogador->id]);
+            session(['erros' => 0]);
             #return view('jogo', compact('dica', 'letras'));
             return redirect('/jogoDaForca');
         } else {
@@ -144,54 +145,59 @@ public function jogo() {
 
 public function jogoRevelaLetra(Request $request) {
 
+    $acertos = 0;
+
     $jogadoresPalavrasModel = JogadoresPalavrasModel::where('id', $request->players_words_id)->get();
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L1)) { session(['L0' => strtoupper($jogadoresPalavrasModel[0]->L1)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L3)) { session(['L2' => strtoupper($jogadoresPalavrasModel[0]->L3)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L4)) { session(['L3' => strtoupper($jogadoresPalavrasModel[0]->L4)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L5)) { session(['L4' => strtoupper($jogadoresPalavrasModel[0]->L5)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L6)) { session(['L5' => strtoupper($jogadoresPalavrasModel[0]->L6)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L7)) { session(['L6' => strtoupper($jogadoresPalavrasModel[0]->L7)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L8)) { session(['L7' => strtoupper($jogadoresPalavrasModel[0]->L8)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L9)) { session(['L8' => strtoupper($jogadoresPalavrasModel[0]->L9)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L10)) { session(['L9' => strtoupper($jogadoresPalavrasModel[0]->L10)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L11)) { session(['L10' => strtoupper($jogadoresPalavrasModel[0]->L11)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L12)) { session(['L11' => strtoupper($jogadoresPalavrasModel[0]->L12)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L13)) { session(['L12' => strtoupper($jogadoresPalavrasModel[0]->L13)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L14)) { session(['L13' => strtoupper($jogadoresPalavrasModel[0]->L14)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L15)) { session(['L14' => strtoupper($jogadoresPalavrasModel[0]->L15)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L16)) { session(['L15' => strtoupper($jogadoresPalavrasModel[0]->L16)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L17)) { session(['L16' => strtoupper($jogadoresPalavrasModel[0]->L17)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L18)) { session(['L17' => strtoupper($jogadoresPalavrasModel[0]->L18)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L19)) { session(['L18' => strtoupper($jogadoresPalavrasModel[0]->L19)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L20)) { session(['L19' => strtoupper($jogadoresPalavrasModel[0]->L20)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L21)) { session(['L20' => strtoupper($jogadoresPalavrasModel[0]->L21)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L22)) { session(['L21' => strtoupper($jogadoresPalavrasModel[0]->L22)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L23)) { session(['L22' => strtoupper($jogadoresPalavrasModel[0]->L23)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L24)) { session(['L23' => strtoupper($jogadoresPalavrasModel[0]->L24)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L25)) { session(['L24' => strtoupper($jogadoresPalavrasModel[0]->L25)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L26)) { session(['L25' => strtoupper($jogadoresPalavrasModel[0]->L26)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L27)) { session(['L26' => strtoupper($jogadoresPalavrasModel[0]->L27)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L28)) { session(['L27' => strtoupper($jogadoresPalavrasModel[0]->L28)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L29)) { session(['L28' => strtoupper($jogadoresPalavrasModel[0]->L29)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L30)) { session(['L29' => strtoupper($jogadoresPalavrasModel[0]->L30)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L31)) { session(['L30' => strtoupper($jogadoresPalavrasModel[0]->L31)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L32)) { session(['L31' => strtoupper($jogadoresPalavrasModel[0]->L32)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L33)) { session(['L32' => strtoupper($jogadoresPalavrasModel[0]->L33)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L34)) { session(['L33' => strtoupper($jogadoresPalavrasModel[0]->L34)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L35)) { session(['L34' => strtoupper($jogadoresPalavrasModel[0]->L35)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L36)) { session(['L35' => strtoupper($jogadoresPalavrasModel[0]->L36)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L37)) { session(['L36' => strtoupper($jogadoresPalavrasModel[0]->L37)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L38)) { session(['L37' => strtoupper($jogadoresPalavrasModel[0]->L38)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L39)) { session(['L38' => strtoupper($jogadoresPalavrasModel[0]->L39)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L40)) { session(['L39' => strtoupper($jogadoresPalavrasModel[0]->L40)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L41)) { session(['L40' => strtoupper($jogadoresPalavrasModel[0]->L41)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L42)) { session(['L41' => strtoupper($jogadoresPalavrasModel[0]->L42)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L43)) { session(['L42' => strtoupper($jogadoresPalavrasModel[0]->L43)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L44)) { session(['L43' => strtoupper($jogadoresPalavrasModel[0]->L44)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L45)) { session(['L44' => strtoupper($jogadoresPalavrasModel[0]->L45)]); } } catch (Exception $e) {}
-    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L46)) { session(['L45' => strtoupper($jogadoresPalavrasModel[0]->L46)]); } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L1)) { session(['L0' => strtoupper($jogadoresPalavrasModel[0]->L1)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L3)) { session(['L2' => strtoupper($jogadoresPalavrasModel[0]->L3)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L4)) { session(['L3' => strtoupper($jogadoresPalavrasModel[0]->L4)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L5)) { session(['L4' => strtoupper($jogadoresPalavrasModel[0]->L5)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L6)) { session(['L5' => strtoupper($jogadoresPalavrasModel[0]->L6)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L7)) { session(['L6' => strtoupper($jogadoresPalavrasModel[0]->L7)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L8)) { session(['L7' => strtoupper($jogadoresPalavrasModel[0]->L8)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L9)) { session(['L8' => strtoupper($jogadoresPalavrasModel[0]->L9)]);    $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L10)) { session(['L9' => strtoupper($jogadoresPalavrasModel[0]->L10)]);  $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L11)) { session(['L10' => strtoupper($jogadoresPalavrasModel[0]->L11)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L12)) { session(['L11' => strtoupper($jogadoresPalavrasModel[0]->L12)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L13)) { session(['L12' => strtoupper($jogadoresPalavrasModel[0]->L13)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L14)) { session(['L13' => strtoupper($jogadoresPalavrasModel[0]->L14)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L15)) { session(['L14' => strtoupper($jogadoresPalavrasModel[0]->L15)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L16)) { session(['L15' => strtoupper($jogadoresPalavrasModel[0]->L16)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L17)) { session(['L16' => strtoupper($jogadoresPalavrasModel[0]->L17)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L18)) { session(['L17' => strtoupper($jogadoresPalavrasModel[0]->L18)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L19)) { session(['L18' => strtoupper($jogadoresPalavrasModel[0]->L19)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L20)) { session(['L19' => strtoupper($jogadoresPalavrasModel[0]->L20)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L21)) { session(['L20' => strtoupper($jogadoresPalavrasModel[0]->L21)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L22)) { session(['L21' => strtoupper($jogadoresPalavrasModel[0]->L22)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L23)) { session(['L22' => strtoupper($jogadoresPalavrasModel[0]->L23)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L24)) { session(['L23' => strtoupper($jogadoresPalavrasModel[0]->L24)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L25)) { session(['L24' => strtoupper($jogadoresPalavrasModel[0]->L25)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L26)) { session(['L25' => strtoupper($jogadoresPalavrasModel[0]->L26)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L27)) { session(['L26' => strtoupper($jogadoresPalavrasModel[0]->L27)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L28)) { session(['L27' => strtoupper($jogadoresPalavrasModel[0]->L28)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L29)) { session(['L28' => strtoupper($jogadoresPalavrasModel[0]->L29)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L30)) { session(['L29' => strtoupper($jogadoresPalavrasModel[0]->L30)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L31)) { session(['L30' => strtoupper($jogadoresPalavrasModel[0]->L31)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L32)) { session(['L31' => strtoupper($jogadoresPalavrasModel[0]->L32)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L33)) { session(['L32' => strtoupper($jogadoresPalavrasModel[0]->L33)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L34)) { session(['L33' => strtoupper($jogadoresPalavrasModel[0]->L34)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L35)) { session(['L34' => strtoupper($jogadoresPalavrasModel[0]->L35)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L36)) { session(['L35' => strtoupper($jogadoresPalavrasModel[0]->L36)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L37)) { session(['L36' => strtoupper($jogadoresPalavrasModel[0]->L37)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L38)) { session(['L37' => strtoupper($jogadoresPalavrasModel[0]->L38)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L39)) { session(['L38' => strtoupper($jogadoresPalavrasModel[0]->L39)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L40)) { session(['L39' => strtoupper($jogadoresPalavrasModel[0]->L40)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L41)) { session(['L40' => strtoupper($jogadoresPalavrasModel[0]->L41)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L42)) { session(['L41' => strtoupper($jogadoresPalavrasModel[0]->L42)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L43)) { session(['L42' => strtoupper($jogadoresPalavrasModel[0]->L43)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L44)) { session(['L43' => strtoupper($jogadoresPalavrasModel[0]->L44)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L45)) { session(['L44' => strtoupper($jogadoresPalavrasModel[0]->L45)]); $acertos++; } } catch (Exception $e) {}
+    try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L46)) { session(['L45' => strtoupper($jogadoresPalavrasModel[0]->L46)]); $acertos++; } } catch (Exception $e) {}
+
+    if($acertos == 0) { session(['erros' => (session('erros')+1)]); }
+    #session acertos = totalde letras da palavra = vitória
 
     return $jogadoresPalavrasModel;
 
