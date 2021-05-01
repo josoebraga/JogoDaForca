@@ -37,8 +37,6 @@ function bloqueiaInput(){
 }
 setInterval(bloqueiaInput, 1000);
 
-
-
 function revelaLetra(letra) {
 
             if (window.XMLHttpRequest) {
