@@ -197,7 +197,7 @@ public function jogoRevelaLetra(Request $request) {
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L46)) { session(['L45' => strtoupper($jogadoresPalavrasModel[0]->L46)]); $acertos++; } } catch (Exception $e) {}
 
     if($acertos == 0) { session(['erros' => (session('erros')+1)]); }
-    #session acertos = totalde letras da palavra = vitória
+    #session acertos = totalde letras da palavra = vitória#
 
     return $jogadoresPalavrasModel;
 
