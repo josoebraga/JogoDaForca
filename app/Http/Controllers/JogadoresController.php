@@ -7,6 +7,7 @@ use App\Models\Jogadores;
 use App\Models\JogadoresPalavrasModel;
 use App\Models\Palavras;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class JogadoresController extends Controller
@@ -22,6 +23,7 @@ class JogadoresController extends Controller
         $request->session()->flush();
         $nick = $request->nick; // GET OF DATA
         $group_word = $request->group_word;
+        session(['group_word' => $group_word]);
         if ($group_word == 0) {
             $categoria = CategoriasPalavras::all()->random(1);
             $group_word = $categoria[0]->id;
@@ -107,6 +109,10 @@ class JogadoresController extends Controller
             $jogadorPalavra->save();
             session(['jogadorId' => $jogador->id]);
             session(['erros' => 0]);
+            session(['acertos' => 0]);
+            session(['letrasEmTela' => '']);
+            session(['palavraEmTela' => '']);
+            session(['validaLetra' => '']);
             #return view('jogo', compact('dica', 'letras'));
             return redirect('/jogoDaForca');
         } else {
@@ -124,7 +130,7 @@ public function jogo() {
     } else {
 
     $jogadores = Jogadores::where('id', $jogadorId)->get();
-    $jogadoresPalavrasModel = JogadoresPalavrasModel::where('player_id', $jogadorId)->get();
+    $jogadoresPalavrasModel = JogadoresPalavrasModel::where('player_id', $jogadorId)->where('status', 0)->get();
     $palavras = Palavras::where('id', $jogadoresPalavrasModel[0]->word_id)->get();
     $letras = array();
     $dica = '';
@@ -143,11 +149,18 @@ public function jogo() {
 
 }
 
+public function palavraSessao(Request $request) {
+    session(['palavraEmTela' => $request->palavra]);
+    return $request->palavra;
+}
+
 public function jogoRevelaLetra(Request $request) {
 
     $acertos = 0;
+    $sessionAcertos = session('acertos');
 
     $jogadoresPalavrasModel = JogadoresPalavrasModel::where('id', $request->players_words_id)->get();
+    $palavras = Palavras::where('id', $jogadoresPalavrasModel[0]->word_id)->get()->random(1);
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L1)) { session(['L0' => strtoupper($jogadoresPalavrasModel[0]->L1)]);    $acertos++; } } catch (Exception $e) {}
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]);    $acertos++; } } catch (Exception $e) {}
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L2)) { session(['L1' => strtoupper($jogadoresPalavrasModel[0]->L2)]);    $acertos++; } } catch (Exception $e) {}
@@ -196,8 +209,22 @@ public function jogoRevelaLetra(Request $request) {
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L45)) { session(['L44' => strtoupper($jogadoresPalavrasModel[0]->L45)]); $acertos++; } } catch (Exception $e) {}
     try { if(strtolower($request->letra) == strtolower($jogadoresPalavrasModel[0]->L46)) { session(['L45' => strtoupper($jogadoresPalavrasModel[0]->L46)]); $acertos++; } } catch (Exception $e) {}
 
-    if($acertos == 0) { session(['erros' => (session('erros')+1)]); }
-    #session acertos = totalde letras da palavra = vitória#
+    if($acertos == 0) {
+        session(['erros' => (session('erros')+1)]);
+        session(['acertos' => 0]);
+        session(['validaLetra' => 0]);
+    } else {
+        session(['acertos' => 1]);
+        session(['validaLetra' => 1]);
+    }
+    session(['acertos' => $sessionAcertos+$acertos]);
+    $letrasEmTela = session('letrasEmTela').'-'.strtoupper($request->letra);
+    session(['letrasEmTela' => ($letrasEmTela)]);
+
+    #se errou a palavra
+        #DB::update("update players set punctuation = punctuation + (? * 5) where id = ?", [session('acertos'), session('jogadorId')]);
+    #se acertou a palavra
+        #DB::update("update players set punctuation = punctuation + 100 where id = ?", [session('jogadorId')]);
 
     return $jogadoresPalavrasModel;
 
